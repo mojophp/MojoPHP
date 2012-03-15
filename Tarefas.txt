@@ -10,6 +10,7 @@
 
 - Criar uma função comum do FW para medir o desempenho da aplicação, retornando
   o tempo de criação da página e a quantidade de memória usada.
+  (Pronto)
 
 - Definir a licença do Mojo*PHP.
   (Pronto)

@@ -45,3 +45,16 @@ function object_to_array($object) {
     }
     return $array;
 }
+
+/**
+ * Esta função calcula o tempo de execussão da página.
+ * 
+ * @return string
+ */
+function get_time_generator(){
+    $t_start = array_sum(explode(' ', microtime()));
+    $exec_time = array_sum(explode(' ', microtime())) - $t_start;
+    $exec_time1 = (ceil($exec_time * 10000))/10000;
+    return $exec_time1;
+    
+}
