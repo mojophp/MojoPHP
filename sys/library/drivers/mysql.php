@@ -1,11 +1,15 @@
 <?php
 
-if ( ! defined('BASE_PATH')) exit('Acesso negado!');
+if (!defined('BASE_PATH'))
+    exit('Acesso negado!');
 
 /**
- * Drive de funcionamento para MySql.
+ * Esta classe é o drive de funcionamento básico para
+ * o banco de dados MySql.
  *
- * @packageMojo*PHP
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License.
+ * @copyright Copyright 2012, Mojo*PHP (http://mojophp.net/).
+ * @package Mojo*PHP
  * @author Eliel de Paula <elieldepaula@gmail.com>
  * @since 26/12/2012
  */
@@ -25,8 +29,8 @@ class mysql {
     protected $expvar = array();
     protected $link_connection;
     //external vars
+    public $rs;
     public $error;
-    public $result;
     public $rows = array();
     public $numrows;
     public $sql;
@@ -36,22 +40,30 @@ class mysql {
 
     function __construct($config = array()) {
         $conf = $config[ENVIROMENT];
-        $this->link_connection = $this->connect($conf['user'], $conf['password'], 
-                $conf['host'], $conf['database']);
+        $this->link_connection = $this->connect($conf['user'], $conf['password'], $conf['host'], $conf['database']);
     }
-    
+
     public static function &getInstance($config = array()) {
         static $instance = array();
-        if(!isset($instance[0]) || !$instance[0]):
+        if (!isset($instance[0]) || !$instance[0]):
             $instance[0] = new mysql($config);
         endif;
         return $instance[0];
     }
-    
+
     function connect($username, $password, $host, $db) {
         $connect = mysql_connect($host, $username, $password) or die("db fail");
         $db = mysql_select_db($db, $connect);
         return $connect;
+    }
+
+    function clear() {
+        $this->table = null;
+        $this->query = null;
+        $this->where = null;
+        $this->order = null;
+        $this->limit = null;
+        $this->values = null;
     }
 
     function fields($x) {
@@ -124,9 +136,19 @@ class mysql {
         else
             mail("elieldepaula@gmail.com", "Mojo*PHP - SQL Debug", $this->query, "From: debug@elieldepaula.com.br");
     }
-    
+
     function select() {
 
+        /**
+         * Tentativa de resolver o erro de listagem de respostas aos tópicos
+         * quando só se tem uma resposta ao tópico.
+         */
+        $this->rs = null;
+        $this->rquery = null;
+
+        /**
+         * Monta a consulta SQL.
+         */
         $this->query = "SELECT " . $this->fields . " FROM " . $this->table;
         if ($this->where)
             $this->query.=" WHERE " . $this->where;
@@ -135,15 +157,18 @@ class mysql {
         if ($this->limit)
             $this->query.=" LIMIT " . $this->limit;
 
+        /**
+         * Executa a consulta SQL.
+         */
         $this->rs = mysql_query($this->query);
-        
+
         /**
          * Limpa os resultados antigos para evitar que eles sejam
          * concatenados com os novos resultados.
          */
         $this->numrows = null;
         $this->rows = null;
-        
+
         $this->numrows = mysql_num_rows($this->rs);
 
 
@@ -157,6 +182,7 @@ class mysql {
             $this->get($this->rows[0]);
             $this->cntr = 0;
         }
+        $this->clear();
     }
 
     function insert() {
@@ -213,8 +239,8 @@ class mysql {
             $this->cntr = 0;
         }
     }
-    
-    function get_link(){
+
+    function get_link() {
         return $this->link_connection;
     }
 

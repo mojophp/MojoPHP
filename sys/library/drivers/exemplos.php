@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Este arquivo não é essencial para o funcionamento do Mojo*PHP, foi inserido
+ * apenas para consulta com exemplos de utilização do driver do MySql.
+ * 
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License.
+ * @copyright Copyright 2012, Mojo*PHP (http://mojophp.net/).
+ * @package Mojo*PHP
+ * @author Eliel de Paula <elieldepaula@gmail.com>
+ */
+
 //DELETE EXAMPLE
 $this->db->table('page');
 $this->db->where('pid=28');
@@ -38,7 +48,7 @@ $this->db->debug(0);
 
 $this->db->numrows; //returns total rows
 
-foreach($this->db->rows as $row){
+foreach($this->db->result as $row){
 
 	$this->db->get($row);
 
@@ -53,7 +63,7 @@ $this->db->string();
 
 echo $this->db->numrows; //returns total rows
 
-foreach($this->db->rows as $row){
+foreach($this->db->result as $row){
 
 	$this->db->get($row);
 
