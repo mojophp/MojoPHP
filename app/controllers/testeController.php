@@ -90,7 +90,7 @@ class testeController extends MJ_Controller {
 
         /* ----- Testes do datasource ----- */
 
-        //$saida = $this->load('usuarios')->get_lista_usuarios();
+        $saida = $this->load('usuarios')->get_lista_usuarios();
 
         /* ----- Fim dos testes do datasource ----- */
 

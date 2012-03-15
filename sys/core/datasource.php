@@ -13,17 +13,21 @@ if (!defined('BASE_PATH'))
  * @author Eliel de Paula <elieldepaula@gmail.com>
  * @since 26/12/2012
  */
-class MJ_Datasource extends MJ_Registry {
+class MJ_Datasource extends MJ_Loader {
 
+    /**
+     * Esta variável manterá a instância do banco de dados em execussão.
+     * 
+     * @var mixed 
+     */
     public $db = NULL;
 
     function __construct() {
-
+        // Recupera as configurações de conexão.
         $config = Config::read('database');
         $driver = $config[ENVIROMENT]['driver'];
-
-        App::import('drivers', $driver);
-        $this->db = new $driver($config);
+        // Carrega o driver selecionado.
+        $this->loadDriver($driver, null, $config);
+        $this->db = $this->load($driver);
     }
-
 }
