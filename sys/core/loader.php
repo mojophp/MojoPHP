@@ -23,37 +23,28 @@ class MJ_Loader extends MJ_Registry {
      * @param string $name
      * @return bool 
      */
-    public function loadModel($Class = '', $name = NULL) {
-
+    public static function loadModel($Class = '', $name = NULL) {
         // Verifica se $Class está em branco.
         if ($Class == '')
             return false;
-
         // Defini $name caso venha vazio.
         if (!$name):
             $name = $Class;
         endif;
-
         // Verifica se $name já existe no registro.
         if (!MJ_Registry::reg_exists($name)):
-
             // Verifica se o arquivo existe.
             if (file_exists(App::path('model', $Class . 'Model'))):
                 App::import('model', $Class . 'Model');
             else:
                 exit('Não foi possível encontrar o model ' . App::path('model', $Class . 'Model'));
             endif;
-
             // Instancia o objeto para registrar.
             $objeto = new $Class();
-            $this->reg_add($objeto, $name);
-
+            parent::reg_add($objeto, $name);
             return true;
-
         else:
-
             return false;
-
         endif;
     }
 
@@ -65,37 +56,28 @@ class MJ_Loader extends MJ_Registry {
      * @param string $name
      * @return bool 
      */
-    public function loadLibrary($Class = '', $name = NULL) {
-
+    public static function loadLibrary($Class = '', $name = NULL, $param = NULL) {
         // Verifica se $Class está em branco.
         if ($Class == '')
             return false;
-
         // Defini $nome caso venha vazio.
         if (!$name):
             $name = $Class;
         endif;
-
         // Verifica se $name já existe no registro.
         if (!MJ_Registry::reg_exists($name)):
-
             // Verifica se o arquivo existe.
             if (file_exists(App::path('lib', $Class))):
                 App::import('lib', $Class);
             else:
                 exit('Não foi possível encontrar a biblioteca ' . App::path('lib', $Class));
             endif;
-
             // Instancia o objeto para registrar.
             $objeto = new $Class($param);
-            $this->reg_add($objeto, $name);
-
+            parent::reg_add($objeto, $name);
             return true;
-
         else:
-
             return false;
-
         endif;
     }
 
@@ -106,7 +88,7 @@ class MJ_Loader extends MJ_Registry {
      * @param string $file
      * @return bool 
      */
-    public function loadHelper($file = '') {
+    public static function loadHelper($file = '') {
         if ($file == '')
             return false;
         if (file_exists(App::path('helper', $file . 'Helper'))) {
@@ -126,42 +108,25 @@ class MJ_Loader extends MJ_Registry {
      * @return mixed 
      */
     public function loadView($view, $data = NULL, $string = FALSE) {
-
         $file = App::path('views', $view);
-
         if (sizeof($data) > 0)
             extract($data, EXTR_SKIP);
-
         if (file_exists($file)):
-
             if ($string):
-
                 // Retorna o arquivo como uma string.
                 ob_start();
-
                 // Inclui o arquivo da view.
                 include($file);
-
                 $content = ob_get_contents();
                 ob_end_clean();
-
                 return $content;
-
             else:
-
-                // Inclui o arquivo da view.
                 include($file);
-
             endif;
-
         else:
-
             die("Não foi possível carregar o arquivo da view: " . $file);
-
             return false;
-
         endif;
-
         return true;
     }
     
@@ -174,37 +139,28 @@ class MJ_Loader extends MJ_Registry {
      * @param mixed $param
      * @return bool 
      */
-    public function loadDriver($Class = '', $name = NULL, $param = NULL) {
-
+    public static function loadDriver($Class = '', $name = NULL, $param = NULL) {
         // Verifica se $Class está em branco.
         if ($Class == '')
             return false;
-        
         // Defini $nome caso venha vazio.
         if(!$name):
             $name = $Class;
         endif;
-        
         // Verifica se $name já existe no registro.
         if (!MJ_Registry::reg_exists($name)):
-        
             // Verifica se o arquivo existe.
             if(file_exists(App::path('drivers', $Class))):
                 App::import('drivers', $Class);
             else:
                 exit('Não foi possível encontrar o driver ' . App::path('driver', $Class . 'Model'));
             endif;
-
             // Instancia o objeto para registrar.
             $objeto = new $Class($param);
-            $this->reg_add($objeto, $name);
-
+            parent::reg_add($objeto, $name);
             return true;
-        
         else:
-
             return false;
-
         endif;
     }
 
@@ -216,7 +172,7 @@ class MJ_Loader extends MJ_Registry {
      * @param string $name
      * @return mixed 
      */
-    public function load($name) {
+    public static function load($name) {
         return self::reg_get($name);
     }
 

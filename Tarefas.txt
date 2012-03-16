@@ -3,6 +3,7 @@
 
 - Criar uma função comum do FW para registrar e carregar a instância de uma classe 
   para ser usada em algum helper, já que os arquivos são apenas de funções.
+  (Pronto)
 
 - Criar uma saída do link de conexão com o banco de dados ativo para ser usado em
   classes que estejam fora do padrão de desenvolvimento em um processo migratório.

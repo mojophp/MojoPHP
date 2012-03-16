@@ -58,3 +58,25 @@ function get_time_generator(){
     return $exec_time1;
     
 }
+
+/**
+ * Esta função retorna uma instância de um objeto model ou 
+ * library dentro do Mojo*PHP.
+ * 
+ * @param string $class     Classe desejada.
+ * @param string $tipo      Tipo da classe, lib (Library) ou model (Models).
+ * @param string $name      Nome da classe caso seja diferente do nome do arquivo.
+ * @param string $param     Parâmetros não obrigatórios a serem passados para o objeto.
+ * @return mixed 
+ */
+function get_instance($class, $tipo = 'lib', $name = NULL, $param = NULL){
+    switch ($tipo):
+        case 'lib':
+            MJ_Loader::loadLibrary($class, $name, $param);
+            break;
+        case 'model':
+            MJ_Loader::loadModel($class, $name, $param);
+            break;
+    endswitch;
+    return MJ_Loader::load($class);
+}

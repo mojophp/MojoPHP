@@ -111,26 +111,3 @@ class testeController extends MJ_Controller {
         echo $this->load('usuarios')->testando();
     }
 }
-
-//for ($i=0; $i<100000000; $i++)
-//        continue;
- 
-//    $tempo_carregamento = time() - $_SERVER['REQUEST_TIME'];
-// 
-//    print "A página demorou {$tempo_carregamento} segundos para carregar.";
-
-//- Variavel Inicio
-//
-//$t_start = array_sum(explode(' ', microtime()));
-//
-//$exec_time = array_sum(explode(' ', microtime())) - $t_start;
-//
-//$exec_time1 = (ceil($exec_time * 10000))/10000;
-
-//- Variavel Fim
-
-//- Codigo Inicio
-
-//print"Tempo de Execucao: $exec_time1 sec.";
-
-//- Codigo Fim
