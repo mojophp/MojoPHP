@@ -13,9 +13,9 @@ Config::write("database", array(
     "desenvolvimento" => array(
         "driver" => "mysql",
         "host" => "localhost",
-        "user" => "root",
+        "user" => "",
         "password" => "",
-        "database" => "igrejadecristo"
+        "database" => ""
     ),
     "teste" => array(
         "driver" => "",
