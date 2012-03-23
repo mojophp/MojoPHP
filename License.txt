@@ -6,7 +6,8 @@ The MIT License
 
 Copyright (c) 2012 - Eliel Ulisses F. de Paula.
 
-Mojo*PHP was originally inspired on CodeIgniter, Copyright (c) 2008 - 2011, 
+Mojo*PHP was originally inspired on CakePHP, Copyright 2005-2008, Cake Software 
+Foundation, Inc. (http://www.cakefoundation.org) and CodeIgniter, Copyright (c) 2008 - 2011, 
 EllisLab, Inc. (http://www.codeigniter.com).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
