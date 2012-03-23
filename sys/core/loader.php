@@ -129,40 +129,6 @@ class MJ_Loader extends MJ_Registry {
         endif;
         return true;
     }
-    
-    /**
-     * Este método carrega um driver para o registro.
-     * 
-     * @access public
-     * @param string $Class
-     * @param string $name
-     * @param mixed $param
-     * @return bool 
-     */
-    public static function loadDriver($Class = '', $name = NULL, $param = NULL) {
-        // Verifica se $Class está em branco.
-        if ($Class == '')
-            return false;
-        // Defini $nome caso venha vazio.
-        if(!$name):
-            $name = $Class;
-        endif;
-        // Verifica se $name já existe no registro.
-        if (!MJ_Registry::reg_exists($name)):
-            // Verifica se o arquivo existe.
-            if(file_exists(App::path('drivers', $Class))):
-                App::import('drivers', $Class);
-            else:
-                exit('Não foi possível encontrar o driver ' . App::path('driver', $Class . 'Model'));
-            endif;
-            // Instancia o objeto para registrar.
-            $objeto = new $Class($param);
-            parent::reg_add($objeto, $name);
-            return true;
-        else:
-            return false;
-        endif;
-    }
 
     /**
      * Este método carrega uma instancia de um objeto armazenado previamente

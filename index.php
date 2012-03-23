@@ -28,7 +28,7 @@ define('DS', DIRECTORY_SEPARATOR);
 /**
  * Diretório de instalação.
  */
-define('DIR_INSTALACAO', 'MojoPHP');
+define('DIR_INSTALACAO', '');
 /**
  * Caminho físico completo da instalação.
  */

@@ -12,10 +12,10 @@ if ( ! defined('BASE_PATH')) exit('Acesso negado!');
 Config::write("database", array(
     "desenvolvimento" => array(
         "driver" => "mysql",
-        "host" => "localhost",
-        "user" => "",
-        "password" => "",
-        "database" => ""
+        "host" => "seu_host",
+        "user" => "seu_username",
+        "password" => "sua_password",
+        "database" => "seu_database"
     ),
     "teste" => array(
         "driver" => "",

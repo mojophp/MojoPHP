@@ -23,11 +23,8 @@ class MJ_Datasource extends MJ_Loader {
     public $db = NULL;
 
     function __construct() {
-        // Recupera as configurações de conexão.
-        $config = Config::read('database');
-        $driver = $config[ENVIROMENT]['driver'];
-        // Carrega o driver selecionado.
-        $this->loadDriver($driver, null, $config);
-        $this->db = $this->load($driver);
+        $this->loadLibrary('database');
+        $this->db = $this->load('database');
     }
+    
 }
