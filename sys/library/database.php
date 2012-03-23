@@ -89,6 +89,21 @@ class database {
         else:
             $this->statement = $this->pdo->query($sql);
         endif;
+        
+    }
+    /**
+     * Este método limpa as variáveis evitando a concatenação de parâmetros
+     * de diferentes execussões.
+     * 
+     * @access private
+     * @return void
+     */
+    private function free_vars(){
+        $this->where = null;
+        $this->limit = null;
+        $this->orderby = null;
+        $this->value_add = null;
+        $this->value_alt = null;
     }
     /**
      * Este método monta uma instrução SQL para ser executada.
@@ -117,6 +132,7 @@ class database {
                 $out_sql = 'DELETE FROM ' . $tabela . $this->get_where();
                 break;
         endswitch;
+        $this->free_vars();
         return $out_sql;
     }
     /**
@@ -304,7 +320,7 @@ class database {
      * @param string $sql Instrução SQL desejada.
      */
     public function query($sql){
-        $this->statement = $this->pdo->query($sql);
+        $this->executa($sql);
     }
     /**
      * Retorna um array com os resultados de uma consulta. Ideal
