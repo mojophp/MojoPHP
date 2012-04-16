@@ -180,6 +180,8 @@ function img($src = '', $index_page = FALSE) {
  */
 function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = '', $media = '', $index_page = FALSE) {
 
+    $module = MJ_Router::getModuleName();
+    
     $link = '<link ';
 
     if (is_array($href)) {
@@ -190,7 +192,7 @@ function link_tag($href = '', $rel = 'stylesheet', $type = 'text/css', $title = 
         $link .= "/>";
     } else {
 
-        $link .= 'href="' . BASE_URL . '/app/views/' . $href . '" ';
+        $link .= 'href="' . BASE_URL . '/app/modules/'.$module.'/views/' . $href . '" ';
 
         $link .= 'rel="' . $rel . '" type="' . $type . '" ';
 

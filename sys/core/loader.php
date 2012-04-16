@@ -108,7 +108,8 @@ class MJ_Loader extends MJ_Registry {
      * @return mixed 
      */
     public function loadView($view, $data = NULL, $string = FALSE) {
-        $file = App::path('views', $view);
+        $module = MJ_Router::getModuleName();
+        $file = App::path('views', $view, 'php', $module );
         if (sizeof($data) > 0)
             extract($data, EXTR_SKIP);
         if (file_exists($file)):

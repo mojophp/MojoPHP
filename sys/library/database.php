@@ -253,7 +253,7 @@ class database {
         $atual = 1;
         foreach($this->value_alt as $key =>$item):
             if($atual >= $total):
-                $saida .= $key . ' = \'' . $item.'\'';
+                $saida .= $key . ' = \'' . $item . '\'';
             else:
                 $saida .= $key . ' = \'' . $item . '\', ';
                 $atual = $atual +1;

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Ativa o uso de sessões caso não esteja ativado.
+ */
+if(!$_SESSION)session_start();
+
+/**
  * Ambiente da instalação.
  */
 define('ENVIROMENT', 'desenvolvimento');
@@ -24,11 +29,11 @@ if (defined('ENVIROMENT')) {
 /**
  * Separador de diretórios.
  */
-define('DS', DIRECTORY_SEPARATOR);
+define('DS', '/');
 /**
  * Diretório de instalação.
  */
-define('DIR_INSTALACAO', '');
+define('DIR_INSTALACAO', 'DEV-MojoPHP');
 /**
  * Caminho físico completo da instalação.
  */

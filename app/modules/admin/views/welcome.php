@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>:: Mojo* PHP ::</title>
+        <title>:: Mojo* PHP - Adminstração::</title>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <style>
             body {
                 font-family: geneva, helvetica, verdana;
                 font-size: 12px;
                 color: #fff;
-                background-color: #660099;
+                background-color: #330066;
             }
             code {
                 font-family: Consolas, Monaco, Courier New, Courier, monospace;
@@ -60,14 +60,15 @@
     </head>
     <body>
         <div id="message">
-            <h1>Seja bem vindo ao Mojo<font color="#cc9900">*</font> PHP</h1>
+            <h1>Seja bem vindo ao Mojo<font color="#cc9900">*</font> PHP - Administração</h1>
             <p>A página que você está vizualizando foi gerada dinamicamente pelo Mojo* PHP.</p>
             <p>Se você quiser alterar esta página, poderá fazê-lo alterando o arquivo:</p>
-            <code>/app/modules/main/views/welcome.php</code>
+            <code>/app/admin/views/welcome.php</code>
             <p>O controlador correspondente a esta página é o arquivo:</p>
-            <code>/app/modules/main/controllers/indexController.php</code>
-            <p>Se você está iniciando agora no Mojo* PHP, talvez queira começar lendo o <a href="http://www.mojophp.net/guia" target="_blank">Guia do usuário</a>.</p>
+            <code>/app/admin/controllers/indexController.php</code>
+            <p>Se você está iniciando agora no Mojo* PHP, talvez queira começar lendo o <a href="user_guide">Guia do usuário</a>.</p>
         </div>
         <div id="copy">&copy;<?= date("Y"); ?> Mojo* PHP.</div>
     </body>
 </html>
+<!-- Administração -->

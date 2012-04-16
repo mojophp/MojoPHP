@@ -1,23 +1,29 @@
 <?php
 
-if (!defined('BASE_PATH'))exit('Acesso negado!');
+if (!defined('BASE_PATH'))
+	exit('Acesso negado!');
 
 /**
- * Helper de arrays.
- * Código derivado do CodeIgniter.
+ * Este arquivo é o helper que reúne as funções para manipulação
+ * de arrays no Mojo*PHP.
+ * 
+ * - Inspirado/Derivado do CodeIgniter® (http://www.codeigniter.com)
+ * 
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License.
+ * @copyright Copyright 2012, Mojo*PHP (http://mojophp.net/).
+ * @package Mojo*PHP
+ * @author Eliel de Paula <elieldepaula@gmail.com>
  */
 
+
 /**
- * Element
- *
- * Lets you determine whether an array index is set and whether it has a value.
- * If the element is empty it returns FALSE (or whatever you specify as the default value.)
- *
+ * Permite determinar se um índice do array está definido e se tem um valor.
+ * Se o elemento é vazio ele retorna FALSE (ou o que você especificar como o valor padrão.)
  * @access	public
  * @param	string
  * @param	array
  * @param	mixed
- * @return	mixed	depends on what the array contains
+ * @return	mixed	depende do que contém no array.
  */
 function element($item, $array, $default = FALSE) {
     if (!isset($array[$item]) OR $array[$item] == "") {
@@ -30,11 +36,11 @@ function element($item, $array, $default = FALSE) {
 // ------------------------------------------------------------------------
 
 /**
- * Random Element - Takes an array as input and returns a random element
+ * Retorna um elemento rotativo tendo um array como base.
  *
  * @access	public
  * @param	array
- * @return	mixed	depends on what the array contains
+ * @return	mixed	depende do que contém no array.
  */
 function random_element($array) {
     if (!is_array($array)) {
@@ -51,12 +57,14 @@ function random_element($array) {
  *
  * Returns only the array items specified.  Will return a default value if
  * it is not set.
+ * Retorna somente os ítens especificados do array. Irá retornar um valor 
+ * padrão se ele não está definido.
  *
  * @access	public
  * @param	array
  * @param	array
  * @param	mixed
- * @return	mixed	depends on what the array contains
+ * @return	mixed	depende do que contém no array.
  */
 function elements($items, $array, $default = FALSE) {
     $return = array();

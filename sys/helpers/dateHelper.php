@@ -15,6 +15,24 @@ if (!defined('BASE_PATH'))
  * @author Eliel de Paula <elieldepaula@gmail.com>
  */
 
+function date_for_mysql($date){
+    $desmonta = explode("/",$date);
+    $dia =  $desmonta[0];
+    $mes =  $desmonta[1];
+    $ano =  $desmonta[2];
+    $saida = $ano."-".$mes."-".$dia;
+    return $saida;
+}
+
+function date_for_user($date){
+    $desmonta = explode("-",$date);
+    $ano =  $desmonta[0];
+    $mes =  $desmonta[1];
+    $dia =  $desmonta[2];
+    $saida = $dia."/".$mes."/".$ano;
+    return $saida;
+}
+
 /**
  * Retorna time() ou seu equivalente GMT baseado nas configurações da aplicação.
  * 
@@ -69,7 +87,9 @@ function mdate($datestr = '', $time = '') {
  */
 function standard_date($fmt = 'DATE_BR', $time = '') {
     $formats = array(
+        'DATE_BR1' => '%d/%m/%Y',
         'DATE_BR' => '%d/%m/%YT%H:%i:%s%Q',
+        'DATE_MYSQL' => '%Y-%m-%d',
         'DATE_ATOM' => '%Y-%m-%dT%H:%i:%s%Q',
         'DATE_COOKIE' => '%l, %d-%M-%y %H:%i:%s UTC',
         'DATE_ISO8601' => '%Y-%m-%dT%H:%i:%s%Q',

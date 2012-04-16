@@ -8,14 +8,13 @@ if ( ! defined('BASE_PATH')) exit('Acesso negado!');
  * ambientes forem necessários.
  * 
  */
-
 Config::write("database", array(
     "desenvolvimento" => array(
         "driver" => "mysql",
-        "host" => "seu_host",
-        "user" => "seu_username",
-        "password" => "sua_password",
-        "database" => "seu_database"
+        "host" => "localhost",
+        "user" => "root",
+        "password" => "",
+        "database" => "test"
     ),
     "teste" => array(
         "driver" => "",

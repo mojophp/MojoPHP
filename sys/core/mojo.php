@@ -15,11 +15,6 @@ if (!defined('BASE_PATH'))
  */
 
 /**
- * Defini a versão do Framework.
- */
-define('VERSAO', '0.01');
-
-/**
  * A classe App() possui funcionalidades importantes no funcionamento do Mojo*PHP
  * confirmando caminhos e importando os arquivos da aplicação.
  */
@@ -32,18 +27,20 @@ class App {
      * @param string $type
      * @param string $file
      * @param string $ext
+     * @param string $module
      * @return mixed 
      */
-    public static function import($type = "core", $file = "", $ext = "php") {
+    public static function import($type = "core", $file = "", $ext = "php", $module = "main") {
         if (is_array($file)):
             foreach ($file as $file):
-                $include = self::import($type, $file, $ext);
+                $include = self::import($type, $file, $ext, $module);
             endforeach;
             return $include;
         else:
-            if ($file_path = self::path($type, $file, $ext)):
+            if ($file_path = self::path($type, $file, $ext, $module)):
                 return require_once $file_path;
             else:
+                die('Erro na importaçao do arquivo ' . $file);
                 trigger_error("File {$file}.{$ext} doesn't exists in {$type}", E_USER_WARNING);
             endif;
         endif;
@@ -58,14 +55,16 @@ class App {
      * @param string $type
      * @param string $file
      * @param string $ext
+     * @param string $module
      * @return string 
      */
-    public static function path($type = "core", $file = "", $ext = "php") {
+    public static function path($type = "core", $file = "", $ext = "php", $module = 'main') {
         $paths = array(
             "core" => array(CORE),
-            "controller" => array(APP . DS . 'controllers', SYS . DS . 'library/controllers'),
+            "modules" => array(APP . DS . 'modules', SYS . DS . 'library'),
+            "controller" => array(APP . DS . 'modules' . DS . $module . DS . 'controllers', SYS . DS . 'library/controllers'),
             "model" => array(APP . DS . 'models'),
-            "views" => array(APP . DS . 'views', SYS . DS . 'library/views'),
+            "views" => array(APP . DS . 'modules' . DS . $module . DS . 'views', SYS . DS . 'library/views'),
             "helper" => array(APP . DS . 'helpers', SYS . DS . 'helpers'),
             "lib" => array(APP . DS . 'library', SYS . DS . 'library'),
             "config" => array(APP . DS . 'config', SYS . DS . 'config'),
@@ -79,7 +78,6 @@ class App {
         endforeach;
         return false;
     }
-
 }
 
 /**

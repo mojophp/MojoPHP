@@ -17,6 +17,7 @@ class MJ_Router {
 
     private $path;
     public $file;
+    public $module;
     public $controller;
     public $action;
     public $param;
@@ -47,32 +48,41 @@ class MJ_Router {
      * @return void
      */
     public function loader() {
-
         // Verifica a rota.
         $this->getController();
-
+        // Cria a localizacao do arquivo do controlador
+        $controllerClassPath = APP . DS . 'modules' . DS . $this->module . DS . 'controllers' . DS . $this->file . '.php';
         // Se o controlador nao estiver disponível retorna o erro.
-        if (is_readable(APP . DS . 'controllers' . DS . $this->file . '.php') == false):
+        if (!is_readable($controllerClassPath)) {
             $this->file = $this->path . 'notfoundController';
             $this->controller = 'notfound';
-        endif;
-
-        // Importa o controlador.
-        App::import('controller', $this->file);
-
+            $this->module = '';
+        }
+        // Importa o arquivo do controlador.
+        App::import('controller', $this->file, 'php', $this->module);
         // Inicia uma nova instancia do controlador.
         $class = $this->controller . 'Controller';
+        // Verifica se a classe existe e é instanciável.
+        if (!class_exists($class, FALSE)) {
+            die('nao existe');
+            trigger_error($class . ' not exists.', E_USER_ERROR);
+        }
+        // Instancia a classe do controlador.
         $controller = new $class();
-
-        // Verifica se a ação é válida.
-        if (is_callable(array($controller, $this->action)) == false):
-            $action = 'index';
-        else:
-            $action = $this->action;
-        endif;
-        
-        // Exeuta a ação.
+        // Defini a ação padrão caso não receba nenhuma ação leoa URL.
+        if ($this->action == '') {
+            $this->action = 'index';
+        }
+        // Verifica se a açao é executável.
+        if (is_callable(array($controller, $this->action)) == false) {
+            throw new Exception('A classe <i>' . $this->action . '</i> não existe no controller ' . $class);
+            //  trigger_error('A classe <i>'.$this->action.'</i> não existe no controller '.$class, E_USER_ERROR);
+        }
+        // Recebe a ação.
+        $action = $this->action;
+        // Executa a ação.
         $controller->$action($this->param);
+        //print('Controler: '); var_dump($controller); print('<br/> Action:'); var_dump($action); print('<br/>Params: '); var_dump($this->param); die();
     }
 
     /**
@@ -82,43 +92,106 @@ class MJ_Router {
      * @return void
      */
     private function getController() {
-
-        // Recupera a rota pela URL.
+        //Recupera a rota pela URL.
         $route = (empty($_GET['rt'])) ? '' : $_GET['rt'];
-
-        // Defini a rota padrão para o método index do controller.
         if (empty($route)):
             $route = 'index';
+            //TODO Criar uma forma do desenvolvedor configurar o modulo padrao no arquivo de configuracao.
+            $this->module = 'main';
         else:
-
-            // Transforma a rota em um array.
+            // Pega a rota em partes.
             $parts = explode('/', $route);
             $this->controller = $parts[0];
-
-            // Defini o elemento 1 do array como a ação do controller.
+            // Recupera o array de módulos.
+            $modules = self::getModulesArray();
+            if (in_array($this->controller, $modules)):
+                $this->module = $parts[0];
+                unset($parts[0]);
+                $parts = array_values($parts);
+                if (isset($parts[0])) {
+                    $this->controller = $parts[0];
+                } else {
+                    $this->controller = 'index';
+                }
+            else:
+                //TODO Criar uma forma do desenvolvedor configurar o modulo padrao ano arquivo de configuracao.
+                $this->module = 'main';
+            endif;
+            // Define a ação
             if (isset($parts[1])):
                 $this->action = $parts[1];
             endif;
-
-            // Defini o elemento 2 do array como o parâmetro a ser passado.
+            // Define o parâmetro
             if (isset($parts[2])):
                 $this->param = $parts[2];
             endif;
-
         endif;
-
-        // Defini o controller padrão da aplicação caso a rota esteja vazia.
+        // Define o controlador padrão caso não seja indicado nenhum na URL.
         if (empty($this->controller)):
             $this->controller = 'index';
         endif;
-
-        // Configura a ação padrão caso venha vazio pela rota.
+        // Define a ação padrão caso não seja indicada nenhuma na URL.
         if (empty($this->action)):
             $this->action = 'index';
         endif;
-
-        // Defini o nome completo do controlador.
+        // Configura o caminho para o arquivo do controlador.
         $this->file = $this->controller . 'Controller';
+    }
+
+    /**
+     * Recupera a lista de módulos.
+     *
+     * @access public
+     * @return Array
+     */
+    public static function getModulesArray() {
+        $modules_dir = APP . DS . 'modules';
+        $modules_array = array();
+        // Verifica se o diretório de módulos está acessível.
+        if (!is_readable($modules_dir)) {
+            throw new Exception('Verifique se o diretorio ' . $modules_dir . ' esta acessivel ou se o mesmo existe.');
+        }
+        // Testa o diretório de módulos.
+        if (!is_dir($modules_dir)) {
+            throw new Exception('O diretório de módulos ' . $modules_dir . ' é inválido.');
+        }
+        // Abre o diretório.
+        $handle = opendir($modules_dir);
+        if ($handle) {
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $modules_array[] = $entry;
+                }
+            }
+            // Fecha o diretório.
+            closedir($handle);
+        }
+        return $modules_array;
+    }
+
+    /**
+     * Recupera o nome do módulo.
+     *
+     * @access public
+     * @return String
+     */
+    public static function getModuleName() {
+        // Recupera a rota pela URL.
+        $route = (empty($_GET['rt'])) ? '' : $_GET['rt'];
+        $module = 'main';
+        if (!empty($route)) {
+            // Pega a rota em partes.
+            $parts = explode('/', $route);
+            // Recupera a lista de módulos em array.
+            $modules = self::getModulesArray();
+            if (in_array($parts[0], $modules)) {
+                $module = $parts[0];
+            } else {
+                //TODO Criar uma forma do desenvolvedor configurar o modulo padrao no arquivo de configuracao.
+                $module = 'main';
+            }
+        }
+        return $module;
     }
 
 }
