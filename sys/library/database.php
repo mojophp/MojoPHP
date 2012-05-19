@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * Database tem que ter as opções de trabalho para serem usadas no Model de forma
  * parecida com o CI.
@@ -351,5 +350,4 @@ class database {
     public function num_rows(){
         return $this->statement->rowCount();
     }
-    
 }

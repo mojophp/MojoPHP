@@ -80,3 +80,19 @@ function get_instance($class, $tipo = 'lib', $name = NULL, $param = NULL){
     endswitch;
     return MJ_Loader::load($class);
 }
+
+/**
+ * Este método gera um thumbnail de uma imagem usando o phpThumb.
+ * 
+ * @param string $img - Caminho da imagem
+ * @param string $param - Parãmetros do phpThumb
+ * @return string 
+ */
+function thumb($img, $param = ''){
+    if($param):
+        $link_thumb = BASE_URL.'/sys/library/phpthumb/phpThumb.php?src='.$img.'&'.$param;
+    else:
+        $link_thumb = BASE_URL.'/sys/library/phpthumb/phpThumb.php?src='.$img;
+    endif;
+    return $link_thumb;
+}
