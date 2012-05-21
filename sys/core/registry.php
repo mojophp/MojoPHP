@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('BASE_PATH'))
-    exit('Acesso negado!');
+if (!defined('BASE_PATH'))exit('Acesso negado!');
 
 /**
  * Esta é a classe de registro do Mojo*PHP, ela é responsavel por
@@ -21,42 +20,39 @@ class MJ_Registry {
      * 
      * @var array 
      */
-    private static $_register = array();
-
+    private static $registro = array();
+    
     /**
      * Este método adiciona um objeto ao registro.
      * 
      * @access public
-     * @param string $item
-     * @param string $name 
+     * @param string $objeto Objeto a ser registrado (Classe instanciada)
+     * @param string $alias Apelido para o objeto (Opcional)
      * @return void
      */
-    public static function reg_add(&$item, $name = null) {
-        if (!self::reg_exists($name)):
-            if (is_object($item) && is_null($name)) {
-                $name = get_class($item);
-            } elseif (is_null($name)) {
+    public static function reg_add(&$objeto, $alias = null) {
+        if (!self::reg_exists($alias)):
+            if (is_object($objeto) && !is_null($alias)):
+                self::$registro[$alias] = $objeto;
+            elseif (is_null($alias)):
                 $msg = "Você deve informar um nome para não-objetos";
                 throw new Exception($msg);
-            }
+            endif;
         endif;
-        $name = strtolower($name);
-        self::$_register[$name] = $item;
     }
 
     /**
      * Este método retorna um objeto adicionado ao registro previamente.
      * 
      * @access public
-     * @param string $name
+     * @param string $alias Apelido ou nome registrado
      * @return mixed 
      */
-    public static function &reg_get($name) {
-        if (self::reg_exists($name)):
-            return self::$_register[$name];
+    public static function &reg_get($alias) {
+        if(self::reg_exists($alias)):
+            return self::$registro[$alias];
         else:
-            return false;
-            exit($name . ' não foi encontrado no registro.');
+            exit('ERRO 3 - Objeto '.$alias . ' não foi encontrado no registro.');
         endif;
     }
 
@@ -64,16 +60,16 @@ class MJ_Registry {
      * Este método verifica se o objeto já existe no registro.
      * 
      * @access public
-     * @param string $name
+     * @param string $alias Apelido ou nome registrado.
      * @return bool 
      */
-    public static function reg_exists($name) {
-        $name = strtolower($name);
-        if (array_key_exists($name, self::$_register)) {
+    public static function reg_exists($alias) {
+        $alias = strtolower($alias);
+        if(array_key_exists($alias, self::$registro)):
             return true;
-        } else {
+        else:
             return false;
-        }
+        endif;
     }
 
 }
