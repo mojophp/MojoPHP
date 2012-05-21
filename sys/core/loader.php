@@ -28,7 +28,7 @@ class MJ_Loader extends MJ_Registry {
         if(!MJ_Registry::reg_exists($alias)):
             if(file_exists(App::path('model', $model.'Model'))):
                 App::import('model', $model.'Model');
-                $objeto = new $class();
+                $objeto = new $model();
                 parent::reg_add($objeto, $alias);
             else:
                 exit('ERRO - Model não encontrado: '.$model);
@@ -51,7 +51,7 @@ class MJ_Loader extends MJ_Registry {
         if(!MJ_Registry::reg_exists($alias)):
             if(file_exists(App::path('lib', $library))):
                 App::import('lib', $library);
-                $objeto = new $class($param);
+                $objeto = new $library($param);
                 parent::reg_add($objeto, $alias);
             else:
                 exit('ERRO 2 - Biblioteca não encontrada: '.$library);
